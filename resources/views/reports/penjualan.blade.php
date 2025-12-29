@@ -23,12 +23,12 @@
                 <x-primary-button>Tampilkan</x-primary-button>
             </form>
 
-            <div class="mb-4">
+            {{-- <div class="mb-4">
                 <a href="{{ route('report.penjualan.pdf', ['month' => $month, 'year' => $year]) }}"
                     class="text-sm text-red-700 underline mr-4">Export PDF</a>
                 <a href="{{ route('report.penjualan.excel', ['month' => $month, 'year' => $year]) }}"
                     class="text-sm text-green-700 underline">Export Excel</a>
-            </div>
+            </div> --}}
 
             <div class="bg-white p-4 shadow rounded overflow-x-auto">
                 <table class="w-full table-auto border border-gray-300">

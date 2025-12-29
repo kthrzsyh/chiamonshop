@@ -34,6 +34,11 @@
                                     class="inline-block bg-gray-500 hover:bg-gray-600 text-white text-xs px-3 py-1 rounded ml-1">
                                     View
                                 </a>
+                                {{-- Menu Edit --}}
+                                <a href="{{ route('invoices.edit', $invoice->id) }}"
+                                    class="inline-block bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded ml-1">
+                                    Edit
+                                </a>
                                 <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST"
                                     onsubmit="return confirm('Yakin ingin menghapus produk ini?')" class="inline">
                                     @csrf
