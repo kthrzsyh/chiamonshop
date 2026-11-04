@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Invoice;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -16,7 +17,7 @@ class SalesExport implements FromCollection, WithHeadings
         $this->year = $year;
     }
 
-    public function collection()
+    public function collection(): Collection
     {
         $invoices = Invoice::with('items.product')
             ->whereMonth('invoice_date', $this->month)

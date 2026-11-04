@@ -16,7 +16,7 @@ Membuat sebuah landing page dan sistem pencatatan internal untuk membantu operas
 
 ## 🛠️ Tech Stack
 
--   PHP 8.x
+-   PHP 8.3 atau lebih baru (PHP 8.5 direkomendasikan)
 -   [Laravel](https://laravel.com/) (versi terbaru)
 -   MySQL
 -   Bootstrap (opsional jika dipakai)
@@ -37,7 +37,7 @@ Membuat sebuah landing page dan sistem pencatatan internal untuk membantu operas
 
 ## ⚙️ Cara Instalasi
 
-Pastikan sudah menginstal Composer, PHP, dan MySQL. Kemudian ikuti langkah-langkah berikut:
+Pastikan sudah menginstal Composer, PHP 8.3 atau lebih baru (PHP 8.5 direkomendasikan), dan MySQL. Pastikan PHP CLI yang digunakan Composer dan Artisan juga sesuai (`php -v`). Pada macOS dengan Homebrew, dahulukan PHP Homebrew di `PATH`, misalnya `export PATH="/opt/homebrew/opt/php/bin:$PATH"`. Kemudian ikuti langkah-langkah berikut:
 
 ```bash
 git clone https://github.com/username/chiamonshop-store.git

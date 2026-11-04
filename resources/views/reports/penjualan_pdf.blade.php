@@ -45,7 +45,7 @@
 
 <body>
 
-    <h2>Laporan Penjualan<br>Bulan {{ \Carbon\Carbon::create()->month($month)->translatedFormat('F') }}
+    <h2>Laporan Penjualan<br>Bulan {{ \Carbon\Carbon::create()->month((int) $month)->translatedFormat('F') }}
         {{ $year }}</h2>
 
     <table>

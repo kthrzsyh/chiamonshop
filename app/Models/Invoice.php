@@ -16,11 +16,6 @@ class Invoice extends Model
         'box_fee',
         'notes',
         'total',
-        'nomor_nota',
-    ];
-
-    protected $casts = [
-        'invoice_date' => 'date',
     ];
 
     public function items()

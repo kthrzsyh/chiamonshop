@@ -11,12 +11,6 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-
-    private function generateNomorNota($id): string
-    {
-        return 'INV-' . now()->format('Ymd') . '-' . str_pad($id, 4, '0', STR_PAD_LEFT);
-    }
-
     public function index()
     {
         $invoices = Invoice::all();
@@ -85,9 +79,6 @@ class InvoiceController extends Controller
             'total'          => $total,
         ]);
 
-        $invoice->nomor_nota = $this->generateNomorNota($invoice->id);
-        $invoice->save();
-
         // 6. Simpan setiap item
         foreach ($request->items as $item) {
             $product = $products[$item['product_id']];
@@ -115,11 +106,9 @@ class InvoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Invoice $invoice)
+    public function edit(string $id)
     {
-        $invoice->load(['items.product']);
-        $products = Product::with('latestPrice')->get();
-        return view('invoice.edit', compact('invoice', 'products'));
+        //
     }
 
     /**
@@ -127,72 +116,7 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // 1. CARI INVOICE
-        $invoice = Invoice::findOrFail($id);
-
-        // 2. VALIDASI AWAL
-        $request->validate([
-            'invoice_date'          => 'required|date',
-            'customer_name'         => 'required|string|max:255',
-            'items'                 => 'required|array|min:1',
-            'items.*.product_id'    => 'required|exists:products,id',
-            'items.*.quantity'      => 'required|integer|min:1',
-            'items.*.price'         => 'required|numeric|min:0',
-            'items.*.subtotal'      => 'required|numeric|min:0',
-            'shipping_cost'         => 'nullable|numeric|min:0',
-            'box_fee'               => 'nullable|numeric|min:0',
-            'notes'                 => 'nullable|string',
-        ]);
-
-        // 3. Ambil semua produk dan harga terbarunya
-        $productIds = collect($request->items)->pluck('product_id')->unique();
-        $products = Product::with('latestPrice')
-            ->whereIn('id', $productIds)
-            ->get()
-            ->keyBy('id');
-
-        // 4. Validasi lanjutan: pastikan semua produk valid dan punya latestPrice
-        foreach ($request->items as $item) {
-            $product = $products[$item['product_id']] ?? null;
-            if (!$product || !$product->latestPrice) {
-                return back()->withErrors([
-                    'items_invalid' => 'Harga terbaru tidak ditemukan untuk produk "' . ($product->name ?? 'Tidak diketahui') . '".'
-                ])->withInput();
-            }
-        }
-
-        // 5. Hitung total akhir
-        $subtotal   = collect($request->items)->sum('subtotal');
-        $shipping   = $request->shipping_cost ?? 0;
-        $box        = $request->box_fee ?? 0;
-        $total      = $subtotal + $shipping + $box;
-
-        // 6. Update invoice (nomor_nota tidak berubah)
-        $invoice->update([
-            'invoice_date'   => $request->invoice_date,
-            'customer_name'  => $request->customer_name,
-            'shipping_cost'  => $shipping,
-            'box_fee'        => $box,
-            'notes'          => $request->notes,
-            'total'          => $total,
-        ]);
-
-        // 7. Hapus semua item lama
-        $invoice->items()->delete();
-
-        // 8. Simpan setiap item baru
-        foreach ($request->items as $item) {
-            $product = $products[$item['product_id']];
-
-            $invoice->items()->create([
-                'product_id' => $product->id,
-                'quantity'   => $item['quantity'],
-                'price'      => $item['price'],
-                'cost_price' => $product->latestPrice->cost_price,
-            ]);
-        }
-
-        return redirect()->route('invoices.index')->with('success', 'Nota berhasil diperbarui');
+        //
     }
 
     /**
@@ -200,14 +124,6 @@ class InvoiceController extends Controller
      */
     public function destroy(string $id)
     {
-        // Cari invoice berdasarkan ID
-        $invoice = Invoice::findOrFail($id);
-
-        // Hapus invoice dari database
-        $invoice->delete();
-
-        // Redirect dengan pesan sukses
-        return redirect()->route('invoices.index')
-            ->with('success', 'Nota berhasil dihapus.');
+        //
     }
 }

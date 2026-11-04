@@ -1,0 +1,329 @@
+# Checklist Pekerjaan Website Online Shop Laravel
+
+## 1. Setup Project
+
+- [V] Buat project Laravel baru
+- [V] Setup koneksi database di `.env`
+- [V] Install Laravel Breeze untuk login/register
+- [V] Jalankan migration default Laravel
+- [V] Setup Bootstrap 5 atau Tailwind CSS untuk tampilan mobile responsive
+- [ ] Buat layout utama untuk customer
+- [ ] Buat layout utama untuk admin/seller
+- [ ] Tambahkan kolom `role` pada tabel `users`
+- [ ] Buat middleware `admin`
+- [ ] Batasi halaman admin hanya untuk user role `admin`
+
+---
+
+## 2. Database & Model
+
+### Migration
+
+- [ ] Buat migration `products`
+- [ ] Buat migration `carts`
+- [ ] Buat migration `order_statuses`
+- [ ] Buat migration `orders`
+- [ ] Buat migration `order_items`
+- [ ] Buat migration `payments`
+- [ ] Buat migration `shipments`
+- [ ] Jalankan `php artisan migrate`
+- [ ] Buat seeder untuk data awal `order_statuses`
+- [ ] Buat seeder untuk user admin awal
+
+### Model
+
+- [ ] Buat model `Product`
+- [ ] Buat model `Cart`
+- [ ] Buat model `OrderStatus`
+- [ ] Buat model `Order`
+- [ ] Buat model `OrderItem`
+- [ ] Buat model `Payment`
+- [ ] Buat model `Shipment`
+- [ ] Tambahkan `$fillable` pada setiap model
+- [ ] Tambahkan `$casts` untuk kolom date, decimal, dan JSON
+- [ ] Buat relasi antar model
+
+---
+
+## 3. Product Catalog Customer
+
+- [ ] Buat `ProductController` untuk halaman customer
+- [ ] Buat halaman daftar produk
+- [ ] Buat halaman detail produk
+- [ ] Tampilkan gambar produk
+- [ ] Tampilkan nama produk
+- [ ] Tampilkan harga produk
+- [ ] Tampilkan stok produk
+- [ ] Tampilkan tombol tambah ke keranjang
+- [ ] Filter hanya produk dengan `is_active = true`
+- [ ] Tambahkan pagination produk
+- [ ] Pastikan tampilan responsive di mobile
+
+---
+
+## 4. CRUD Produk Admin
+
+- [ ] Buat `Admin/ProductController`
+- [ ] Buat halaman daftar produk admin
+- [ ] Buat form tambah produk
+- [ ] Buat form edit produk
+- [ ] Buat fitur hapus produk atau nonaktifkan produk
+- [ ] Buat fitur upload gambar produk
+- [ ] Validasi nama produk wajib diisi
+- [ ] Validasi harga harus numeric dan lebih dari 0
+- [ ] Validasi stok harus integer dan minimal 0
+- [ ] Validasi gambar hanya `jpg`, `jpeg`, `png`, atau `webp`
+- [ ] Simpan gambar ke folder storage/public
+- [ ] Jalankan `php artisan storage:link`
+
+---
+
+## 5. Cart / Keranjang
+
+- [ ] Buat `CartController`
+- [ ] Buat halaman keranjang
+- [ ] Buat fitur tambah produk ke keranjang
+- [ ] Jika produk sudah ada di keranjang, update quantity
+- [ ] Buat fitur update quantity
+- [ ] Buat fitur hapus item dari keranjang
+- [ ] Tampilkan subtotal per item
+- [ ] Tampilkan total keranjang
+- [ ] Validasi user harus login sebelum tambah ke keranjang
+- [ ] Validasi produk harus aktif
+- [ ] Validasi quantity minimal 1
+- [ ] Validasi quantity tidak boleh melebihi stok
+
+---
+
+## 6. Checkout
+
+- [ ] Buat `CheckoutController`
+- [ ] Buat halaman checkout
+- [ ] Tampilkan ringkasan item dari keranjang
+- [ ] Tampilkan total harga barang
+- [ ] Tambahkan biaya pengiriman flat jika diperlukan
+- [ ] Tampilkan total pembayaran
+- [ ] Buat form nama penerima
+- [ ] Buat form nomor HP penerima
+- [ ] Buat form alamat pengiriman
+- [ ] Validasi cart tidak boleh kosong
+- [ ] Validasi stok ulang sebelum membuat order
+- [ ] Generate `order_number`
+- [ ] Simpan data ke tabel `orders`
+- [ ] Simpan item ke tabel `order_items`
+- [ ] Kosongkan cart setelah order berhasil dibuat
+- [ ] Set status awal order menjadi `pending_payment`
+- [ ] Set status pembayaran awal menjadi `pending`
+
+---
+
+## 7. Integrasi Midtrans
+
+- [ ] Install package `midtrans/midtrans-php`
+- [ ] Tambahkan konfigurasi Midtrans di `.env`
+- [ ] Buat config Midtrans di `config/services.php`
+- [ ] Generate Snap Token saat checkout berhasil
+- [ ] Simpan `midtrans_order_id` pada order
+- [ ] Buat halaman pembayaran / payment page
+- [ ] Tampilkan tombol bayar dengan Midtrans Snap
+- [ ] Buat route callback/webhook Midtrans
+- [ ] Buat `MidtransCallbackController`
+- [ ] Verifikasi signature key dari Midtrans
+- [ ] Simpan payload callback ke tabel `payments`
+- [ ] Mapping status Midtrans ke status aplikasi
+- [ ] Update `payment_status` order menjadi `paid` jika settlement/capture
+- [ ] Update `order_status` menjadi `paid` jika pembayaran berhasil
+- [ ] Update `paid_at` saat pembayaran berhasil
+- [ ] Kurangi stok produk setelah pembayaran berhasil
+- [ ] Tangani status `expire`
+- [ ] Tangani status `cancel`
+- [ ] Tangani status `deny`
+- [ ] Tangani status `failure`
+
+---
+
+## 8. Order Customer
+
+- [ ] Buat `OrderController` untuk customer
+- [ ] Buat halaman daftar pesanan user
+- [ ] Buat halaman detail pesanan user
+- [ ] Tampilkan nomor order
+- [ ] Tampilkan tanggal order
+- [ ] Tampilkan daftar item order
+- [ ] Tampilkan total pembayaran
+- [ ] Tampilkan status pembayaran
+- [ ] Tampilkan status pesanan
+- [ ] Tampilkan data pengiriman jika sudah dikirim
+- [ ] Tampilkan nomor resi jika sudah tersedia
+- [ ] Tampilkan bukti kirim jika ada
+- [ ] Buat tombol konfirmasi barang diterima
+- [ ] Validasi user hanya boleh melihat order miliknya sendiri
+- [ ] Validasi tombol terima hanya muncul jika order status `shipped`
+
+---
+
+## 9. Order Admin / Seller
+
+- [ ] Buat `Admin/OrderController`
+- [ ] Buat halaman daftar semua pesanan
+- [ ] Buat filter pesanan berdasarkan status
+- [ ] Buat halaman detail pesanan admin
+- [ ] Tampilkan data customer
+- [ ] Tampilkan alamat pengiriman
+- [ ] Tampilkan daftar item order
+- [ ] Tampilkan status pembayaran
+- [ ] Tampilkan status pesanan
+- [ ] Buat tombol proses pesanan
+- [ ] Ubah status order dari `paid` ke `processing`
+- [ ] Set `processed_at` saat pesanan diproses
+- [ ] Buat form input pengiriman
+- [ ] Validasi pesanan hanya bisa diproses jika sudah dibayar
+
+---
+
+## 10. Shipping / Pengiriman
+
+- [ ] Buat form input nama kurir
+- [ ] Buat form input nomor resi
+- [ ] Buat form upload bukti kirim opsional
+- [ ] Buat form catatan pengiriman opsional
+- [ ] Simpan data ke tabel `shipments`
+- [ ] Update status order menjadi `shipped`
+- [ ] Update `shipping_status` menjadi `shipped`
+- [ ] Set `shipped_at`
+- [ ] Tampilkan data pengiriman di halaman customer
+- [ ] Validasi input resi wajib jika status dikirim
+- [ ] Validasi order harus status `processing` sebelum bisa dikirim
+
+---
+
+## 11. Konfirmasi Barang Diterima
+
+- [ ] Buat action `markAsReceived`
+- [ ] Validasi order milik user login
+- [ ] Validasi order status harus `shipped`
+- [ ] Update order status menjadi `completed`
+- [ ] Update `shipping_status` menjadi `received`
+- [ ] Update `received_at` pada shipment
+- [ ] Update `completed_at` pada order
+- [ ] Tampilkan status pesanan selesai ke customer
+
+---
+
+## 12. Dashboard Admin
+
+- [ ] Buat `Admin/DashboardController`
+- [ ] Tampilkan total produk aktif
+- [ ] Tampilkan total pesanan baru
+- [ ] Tampilkan total pesanan sudah dibayar
+- [ ] Tampilkan total pesanan diproses
+- [ ] Tampilkan total pesanan dikirim
+- [ ] Tampilkan total pesanan selesai
+- [ ] Tampilkan total penjualan dari order completed
+- [ ] Tampilkan daftar pesanan terbaru
+
+---
+
+## 13. Security & Authorization
+
+- [ ] Pastikan route cart hanya untuk user login
+- [ ] Pastikan route checkout hanya untuk user login
+- [ ] Pastikan route order customer hanya untuk user login
+- [ ] Pastikan route admin hanya untuk role admin
+- [ ] Pastikan customer tidak bisa akses order customer lain
+- [ ] Pastikan admin tidak bisa mengubah order unpaid menjadi processing
+- [ ] Pastikan callback Midtrans memverifikasi signature key
+- [ ] Pastikan upload file dibatasi tipe dan ukuran
+- [ ] Pastikan CSRF aktif untuk semua form internal
+- [ ] Pastikan webhook Midtrans dikecualikan dari CSRF jika diperlukan
+- [ ] Pastikan error detail tidak ditampilkan di production
+- [ ] Set `APP_DEBUG=false` di production
+
+---
+
+## 14. UI Mobile Responsive
+
+- [ ] Buat navbar customer
+- [ ] Buat navbar admin
+- [ ] Buat card produk responsive
+- [ ] Buat halaman cart nyaman di mobile
+- [ ] Buat halaman checkout nyaman di mobile
+- [ ] Buat tabel order responsive
+- [ ] Gunakan badge status order
+- [ ] Gunakan alert success/error
+- [ ] Tambahkan empty state untuk cart kosong
+- [ ] Tambahkan empty state untuk pesanan kosong
+
+---
+
+## 15. Testing End-to-End
+
+### Customer Flow
+
+- [ ] Customer register
+- [ ] Customer login
+- [ ] Customer melihat produk
+- [ ] Customer menambahkan produk ke keranjang
+- [ ] Customer mengubah quantity keranjang
+- [ ] Customer checkout
+- [ ] Customer bayar via Midtrans sandbox
+- [ ] Customer melihat status order berubah menjadi paid
+- [ ] Customer melihat resi setelah admin input pengiriman
+- [ ] Customer konfirmasi barang diterima
+- [ ] Status order berubah menjadi completed
+
+### Admin Flow
+
+- [ ] Admin login
+- [ ] Admin tambah produk
+- [ ] Admin edit produk
+- [ ] Admin melihat order baru
+- [ ] Admin memproses order paid
+- [ ] Admin input resi dan bukti kirim
+- [ ] Admin melihat order selesai
+
+### Payment Flow
+
+- [ ] Test pembayaran sukses
+- [ ] Test pembayaran pending
+- [ ] Test pembayaran expired
+- [ ] Test pembayaran cancel
+- [ ] Test callback Midtrans diterima Laravel
+- [ ] Test stok berkurang hanya setelah pembayaran berhasil
+
+---
+
+## 16. Deployment Checklist
+
+- [ ] Set environment production
+- [ ] Set database production
+- [ ] Set Midtrans production key jika sudah live
+- [ ] Set `APP_DEBUG=false`
+- [ ] Jalankan `php artisan config:cache`
+- [ ] Jalankan `php artisan route:cache`
+- [ ] Jalankan `php artisan view:cache`
+- [ ] Jalankan `php artisan storage:link`
+- [ ] Pastikan folder storage writable
+- [ ] Pastikan webhook Midtrans mengarah ke domain production
+- [ ] Test transaksi production dengan nominal kecil
+
+---
+
+## 17. Nice to Have Setelah MVP
+
+- [ ] Kategori produk
+- [ ] Search produk
+- [ ] Filter harga produk
+- [ ] Voucher diskon
+- [ ] Ongkir otomatis
+- [ ] Integrasi RajaOngkir / Komerce
+- [ ] Invoice PDF
+- [ ] Email notifikasi
+- [ ] WhatsApp notifikasi
+- [ ] Review produk
+- [ ] Wishlist
+- [ ] Komplain pesanan
+- [ ] Refund
+- [ ] Multi seller
+- [ ] Laporan penjualan
+- [ ] Export order ke Excel

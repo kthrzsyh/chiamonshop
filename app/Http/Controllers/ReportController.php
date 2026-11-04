@@ -24,12 +24,6 @@ class ReportController extends Controller
         return view('reports.penjualan', compact('invoices', 'month', 'year'));
     }
 
-    public function show($id)
-    {
-        $invoice = Invoice::with('items.product')->findOrFail($id);
-        return view('reports.detail', compact('invoice'));
-    }
-
     public function exportPdf(Request $request)
     {
         $month = $request->month ?? now()->format('m');

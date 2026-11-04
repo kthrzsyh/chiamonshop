@@ -22,7 +22,7 @@
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
         <div>
             <a href="/">
-                <h2>Welcome to {{ config('app.name', 'Laravel') }}</h2>
+                <h2>Welcome to {{ config('app.name', env('APP_NAME')) }}</h2>
             </a>
         </div>
 
